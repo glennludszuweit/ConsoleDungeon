@@ -1,15 +1,21 @@
-﻿namespace ConsoleDungeons
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Start();
-        }
+﻿using ConsoleDungeon.Game;
+using ConsoleDungeon.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-        static void Start()
-        {
-            Console.WriteLine("Hello! From Console Dungeons..");
-        }
-    }
-}
+// Build the host and configure services container
+var host = Host.CreateDefaultBuilder(args)
+            .ConfigureServices((context, services) =>
+            {
+                // Inject services to be available throiugh out the application
+                services.AddSingleton<Player>();
+                services.AddSingleton<EnemyLoader>();
+                services.AddSingleton<DungeonLoader>();
+                services.AddTransient<GameEngine>();
+                services.AddTransient<Encounters>();
+            })
+            .Build();
+
+// Resolve the GameEngine from the container and start the game
+var gameEngine = host.Services.GetRequiredService<GameEngine>();
+gameEngine.Run();
