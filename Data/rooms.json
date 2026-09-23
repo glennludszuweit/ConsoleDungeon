@@ -3,25 +3,25 @@
     "RoomNumber": 1,
     "Title": "The Outer Crypts",
     "Theme": "Damp walls and crumbling bones litter the cold floor.",
-    "TransitionStory": "You leave the outer crypts behind. A rusted gate grinds open ahead, revealing slick stone tunnels where moisture drips like clockwork."
+    "TransitionStory": "You leave the outer crypts behind. A rusted gate grinds open ahead,\nrevealing slick stone tunnels where moisture drips like clockwork."
   },
   {
     "RoomNumber": 2,
     "Title": "The Damp Passages",
     "Theme": "Strange dripping sounds echo around you in the dark.",
-    "TransitionStory": "You descend a steep, broken staircase into a cavernous sunken hall. The smell of stagnant water and old magic fills your lungs."
+    "TransitionStory": "You descend a steep, broken staircase into a cavernous sunken hall.\nThe smell of stagnant water and old magic fills your lungs."
   },
   {
     "RoomNumber": 3,
     "Title": "The Sunken Halls",
     "Theme": "Pools of dark water reflect your trembling torchlight.",
-    "TransitionStory": "The stone walls turn smooth and black, hewn by ancient, non-human hands. You hear heavy, rhythmic breathing echoing from the abyss ahead."
+    "TransitionStory": "The stone walls turn smooth and black, hewn by ancient, non-human hands.\nYou hear heavy, rhythmic breathing echoing from the abyss ahead."
   },
   {
     "RoomNumber": 4,
     "Title": "The Deep Depths",
     "Theme": "The air grows thick, heavy, and sulfurous.",
-    "TransitionStory": "You stand before massive obsidian doors carved with runes of dread. You push them open. The final confrontation awaits."
+    "TransitionStory": "You stand before massive obsidian doors carved with runes of dread.\nYou push them open. The final confrontation awaits."
   },
   {
     "RoomNumber": 5,

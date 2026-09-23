@@ -1,5 +1,6 @@
 ﻿using ConsoleDungeon.Game;
 using ConsoleDungeon.Models;
+using ConsoleDungeon.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

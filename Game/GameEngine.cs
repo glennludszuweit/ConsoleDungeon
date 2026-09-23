@@ -97,24 +97,6 @@ namespace ConsoleDungeon.Game
                 {
                     // --- RETREAT TO THE SAFE HALLWAY ---
                     SafeHallway();
-
-                    // After returning from the hallway, ask if they want to re-engage the room
-                    Console.Clear();
-                    Console.WriteLine("==========================================");
-                    Console.WriteLine($"       RETURNING TO ROOM {room.RoomNumber}        ");
-                    Console.WriteLine("==========================================");
-                    Console.WriteLine("You step back into the chamber. The monsters are waiting.");
-                    Console.WriteLine("Do you want to step back in and fight? (Y/N)");
-                    Console.Write("> ");
-                    string? choice = Console.ReadLine()?.ToUpper();
-
-                    if (choice == "N")
-                    {
-                        Console.WriteLine("\nYou decide this room is too dangerous and turn back entirely.");
-                        Console.ReadKey();
-                        return false; // Exit room/game loop safely
-                    }
-
                     // Loop stays on the same enemyIndex, so they re-fight the same foe!
                     continue;
                 }
