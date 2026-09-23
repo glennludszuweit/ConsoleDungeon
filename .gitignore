@@ -1,0 +1,33 @@
+## .NET Core / .NET / C#
+[Oo]bj/
+[Bb]in/
+[Ll]og/
+[Ll]ogs/
+[Tt]emp/
+[Tt]mp/
+[Pp]ublish/
+[Pp]ublished/
+*.lock.json
+project.lock.json
+*.publishState
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## VS Code
+.vscode/
+
+## Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/

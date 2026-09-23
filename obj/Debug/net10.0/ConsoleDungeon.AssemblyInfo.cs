@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ConsoleDungeon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb091e456e4ce8e52ce1a2b73717913540f59770")]
 [assembly: System.Reflection.AssemblyProductAttribute("ConsoleDungeon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ConsoleDungeon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
