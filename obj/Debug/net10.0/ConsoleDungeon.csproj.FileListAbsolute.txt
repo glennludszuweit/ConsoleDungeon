@@ -1,0 +1,14 @@
+C:\Dev\CSharp\ConsoleDungeon\bin\Debug\net10.0\ConsoleDungeon.exe
+C:\Dev\CSharp\ConsoleDungeon\bin\Debug\net10.0\ConsoleDungeon.deps.json
+C:\Dev\CSharp\ConsoleDungeon\bin\Debug\net10.0\ConsoleDungeon.runtimeconfig.json
+C:\Dev\CSharp\ConsoleDungeon\bin\Debug\net10.0\ConsoleDungeon.dll
+C:\Dev\CSharp\ConsoleDungeon\bin\Debug\net10.0\ConsoleDungeon.pdb
+C:\Dev\CSharp\ConsoleDungeon\obj\Debug\net10.0\ConsoleDungeon.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\CSharp\ConsoleDungeon\obj\Debug\net10.0\ConsoleDungeon.AssemblyInfoInputs.cache
+C:\Dev\CSharp\ConsoleDungeon\obj\Debug\net10.0\ConsoleDungeon.AssemblyInfo.cs
+C:\Dev\CSharp\ConsoleDungeon\obj\Debug\net10.0\ConsoleDungeon.csproj.CoreCompileInputs.cache
+C:\Dev\CSharp\ConsoleDungeon\obj\Debug\net10.0\ConsoleDungeon.dll
+C:\Dev\CSharp\ConsoleDungeon\obj\Debug\net10.0\refint\ConsoleDungeon.dll
+C:\Dev\CSharp\ConsoleDungeon\obj\Debug\net10.0\ConsoleDungeon.pdb
+C:\Dev\CSharp\ConsoleDungeon\obj\Debug\net10.0\ConsoleDungeon.genruntimeconfig.cache
+C:\Dev\CSharp\ConsoleDungeon\obj\Debug\net10.0\ref\ConsoleDungeon.dll
