@@ -1,7 +1,7 @@
 using System.Text.Json;
 using ConsoleDungeon.Models;
 
-namespace ConsoleDungeon.Game
+namespace ConsoleDungeon.Services
 {
     public class DungeonLoader
     {
@@ -25,13 +25,13 @@ namespace ConsoleDungeon.Game
                 if (File.Exists("Data/enemies.json"))
                 {
                     string json = File.ReadAllText("Data/enemies.json");
-                    _allEnemies = JsonSerializer.Deserialize<List<Enemy>>(json, options) ?? new();
+                    _allEnemies = JsonSerializer.Deserialize<List<Enemy>>(json, options) ?? [];
                 }
 
                 if (File.Exists("Data/rooms.json"))
                 {
                     string json = File.ReadAllText("Data/rooms.json");
-                    _allRooms = JsonSerializer.Deserialize<List<RoomData>>(json, options) ?? new();
+                    _allRooms = JsonSerializer.Deserialize<List<RoomData>>(json, options) ?? [];
                 }
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace ConsoleDungeon.Game
 
         public List<Enemy> GetEnemiesForRoom(int roomNumber)
         {
-            return _allEnemies.Where(e => e.RoomLevel == roomNumber).ToList();
+            return [.. _allEnemies.Where(e => e.RoomLevel == roomNumber)];
         }
 
         public RoomData? GetRoomData(int roomNumber)

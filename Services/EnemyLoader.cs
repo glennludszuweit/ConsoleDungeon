@@ -1,7 +1,7 @@
 using System.Text.Json;
 using ConsoleDungeon.Models;
 
-namespace ConsoleDungeon.Game
+namespace ConsoleDungeon.Services
 {
     public class EnemyLoader
     {
@@ -20,7 +20,7 @@ namespace ConsoleDungeon.Game
                 if (File.Exists(filePath))
                 {
                     string jsonString = File.ReadAllText(filePath);
-                    _enemies = JsonSerializer.Deserialize<List<Enemy>>(jsonString) ?? new();
+                    _enemies = JsonSerializer.Deserialize<List<Enemy>>(jsonString) ?? [];
                 }
                 else
                 {
