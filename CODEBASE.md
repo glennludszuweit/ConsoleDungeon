@@ -45,24 +45,29 @@ ConsoleDungeon/
 
 ---
 
-🛠️ Tech Stack & Requirements
+## 🛠️ Tech Stack & Requirements
 Language: C# 10+ / .NET 6.0+ (Compatible with latest .NET SDK)
 Core Libraries / Packages:
 Microsoft.Extensions.Hosting (Handles application hosting and the built-in DI container)
 System.Text.Json (Handles parsing of external room and enemy data files)
 
-🏃‍♂️ How to Run the Game
+## 🏃‍♂️ How to Run the Game
 Open your terminal in the root project folder (ConsoleDungeon/).
 Restore or ensure the required hosting package is installed:
 
-Bash
+```Bash
 
 dotnet add package Microsoft.Extensions.Hosting
+dotnet add package Microsoft.Extensions.DependencyInjection
+
+```
 
 Build and execute the application:
 
-Bash
+```Bash
 
 dotnet run
+
+```
 
 Created as a demonstration of foundational and intermediate C# engineering capabilities.
