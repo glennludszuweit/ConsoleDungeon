@@ -6,7 +6,7 @@ namespace ConsoleDungeon.Services
     public class DungeonLoader
     {
         private List<Enemy> _allEnemies = [];
-        private List<RoomData> _allRooms = [];
+        private List<Room> _allRooms = [];
 
         public DungeonLoader()
         {
@@ -31,7 +31,7 @@ namespace ConsoleDungeon.Services
                 if (File.Exists("Data/rooms.json"))
                 {
                     string json = File.ReadAllText("Data/rooms.json");
-                    _allRooms = JsonSerializer.Deserialize<List<RoomData>>(json, options) ?? [];
+                    _allRooms = JsonSerializer.Deserialize<List<Room>>(json, options) ?? [];
                 }
             }
             catch (Exception ex)
@@ -45,7 +45,7 @@ namespace ConsoleDungeon.Services
             return [.. _allEnemies.Where(e => e.RoomLevel == roomNumber)];
         }
 
-        public RoomData? GetRoomData(int roomNumber)
+        public Room? GetRoomData(int roomNumber)
         {
             return _allRooms.FirstOrDefault(r => r.RoomNumber == roomNumber);
         }

@@ -1,6 +1,6 @@
 namespace ConsoleDungeon.Models
 {
-    public class RoomData
+    public class Room
     {
         public int RoomNumber { get; set; }
         public string Title { get; set; } = "";

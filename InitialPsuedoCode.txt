@@ -1,0 +1,314 @@
+// ==========================================
+// 1. DATA MODELS & CONFIGURATION
+// ==========================================
+
+CLASS Player
+    PROPERTY Name: String
+    PROPERTY Health: Integer = 100
+    PROPERTY MaxHealth: Integer = 100
+    PROPERTY Coins: Integer = 0
+    PROPERTY Potions: Integer = 1
+    PROPERTY WeaponPower: Integer = 5
+END CLASS
+
+CLASS EnemyModel
+    PROPERTY Name: String
+    PROPERTY Power: Integer
+    PROPERTY Health: Integer
+    PROPERTY CoinReward: Integer
+END CLASS
+
+CLASS RoomModel
+    PROPERTY RoomNumber: Integer
+    PROPERTY Title: String
+    PROPERTY Description: String
+    PROPERTY Enemies: List<EnemyModel>
+END CLASS
+
+
+// ==========================================
+// 2. PROGRAM ENTRY & BOOTSTRAPPER (Program.cs)
+// ==========================================
+
+MODULE Main(Arguments)
+    // Initialize .NET Generic Host container
+    hostBuilder = CreateDefaultBuilder(Arguments)
+    
+    hostBuilder.ConfigureServices(services =>
+        // Register Singleton: Player state lives for the entire app lifecycle
+        services.AddSingleton<Player>()
+        
+        // Register Transients: Systems/Services instantiated when requested
+        services.AddTransient<GameEngine>()
+        services.AddTransient<Encounters>()
+        services.AddTransient<DungeonLoader>()
+    )
+
+    host = hostBuilder.Build()
+
+    // Resolve the main engine and launch the game loop
+    gameEngine = host.Services.GetRequiredService<GameEngine>()
+    gameEngine.Run()
+END MODULE
+
+
+// ==========================================
+// 3. CORE GAME CONTROLLER (GameEngine.cs)
+// ==========================================
+
+CLASS GameEngine
+    PRIVATE FIELD _player: Player
+    PRIVATE FIELD _dungeonLoader: DungeonLoader
+    PRIVATE FIELD _encounters: Encounters
+
+    // Constructor Injection managed by the DI Container
+    CONSTRUCTOR(player, dungeonLoader, encounters)
+        _player = player
+        _dungeonLoader = dungeonLoader
+        _encounters = encounters
+    END CONSTRUCTOR
+
+    METHOD Run()
+        ClearConsole()
+        PrintLine("Console Dungeon!")
+        PrintLine("----------------")
+        Print("Enter your Name: ")
+        
+        inputName = ReadLine()
+        IF inputName IS EMPTY OR NULL THEN
+            _player.Name = "Adventurer"
+        ELSE
+            _player.Name = inputName
+        END IF
+
+        // Show narrative opening sequence
+        DisplayIntroMessage(_player.Name)
+
+        // Fetch dungeon data structure
+        dungeonRooms = _dungeonLoader.LoadAllRooms()
+
+        FOR EACH room IN dungeonRooms
+            roomSuccess = PlayRoom(room)
+
+            IF NOT roomSuccess THEN
+                IF _player.Health <= 0 THEN
+                    DisplayGameOverScreen()
+                    RETURN // Terminate game loop
+                END IF
+            END IF
+        END FOR
+
+        DisplayVictoryScreen()
+    END METHOD
+
+    METHOD PlayRoom(room)
+        ClearConsole()
+        PrintLine($"--- ROOM {room.RoomNumber}: {room.Title} ---")
+        PrintLine(room.Description)
+        PrintLine($"Enemies lurking ahead: {room.Enemies.Count}")
+        PrintLine("Press any key to enter the room...")
+        ReadKey()
+
+        enemyIndex = 0
+        WHILE enemyIndex < room.Enemies.Count
+            IF _player.Health <= 0 THEN RETURN false
+
+            currentEnemy = room.Enemies[enemyIndex]
+
+            // Launch combat session; returns true if won, false if fled/died
+            combatWon = _encounters.Combat(
+                randomEncounter = false, 
+                name = currentEnemy.Name, 
+                power = currentEnemy.Power, 
+                health = currentEnemy.Health
+            )
+
+            IF _player.Health <= 0 THEN RETURN false
+
+            IF NOT combatWon THEN
+                // Player ran away -> Enter Safe Alcove sub-loop
+                ExecuteSafeHallway()
+                // Do NOT increment enemyIndex; player must re-fight this enemy upon return
+                CONTINUE 
+            END IF
+
+            // Reward player for victory
+            reward = RandomNumber(2, 6)
+            _player.Coins += reward
+            PrintLine($"You searched the remains and found {reward} coins.")
+            PrintLine("Press any key to continue...")
+            ReadKey()
+
+            enemyIndex++ // Advance to next enemy in room
+        END WHILE
+
+        RETURN true
+    END METHOD
+
+    METHOD ExecuteSafeHallway()
+        WHILE true
+            ClearConsole()
+            PrintLine("==========================================")
+            PrintLine("             THE SAFE ALCOVE              ")
+            PrintLine("==========================================")
+            PrintLine($"Coins: {_player.Coins} | Health: {_player.Health}/{_player.MaxHealth} | Potions: {_player.Potions}")
+            PrintLine()
+            PrintLine("[1] Rest and Heal (Cost: 5 coins)")
+            PrintLine("[2] Buy Health Potion (Cost: 10 coins)")
+            PrintLine("[3] Return to Dungeon")
+            Print("Choose your action: ")
+
+            choice = ReadLine()
+
+            SWITCH choice
+                CASE "1":
+                    IF _player.Coins >= 5 THEN
+                        _player.Coins -= 5
+                        _player.Health = Min(_player.MaxHealth, _player.Health + 25)
+                        PrintLine("You rest against the cool stone and bandage your wounds. (+25 HP)")
+                    ELSE
+                        PrintLine("Not enough coins!")
+                    END IF
+                    ReadKey()
+
+                CASE "2":
+                    IF _player.Coins >= 10 THEN
+                        _player.Coins -= 10
+                        _player.Potions += 1
+                        PrintLine("You purchase a glowing health vial.")
+                    ELSE
+                        PrintLine("Not enough coins!")
+                    END IF
+                    ReadKey()
+
+                CASE "3":
+                    PrintLine("You steel your nerves and march back into the dark corridors...")
+                    ReadKey()
+                    RETURN // Break out of safe hallway loop
+
+                DEFAULT:
+                    PrintLine("Invalid choice. Try again.")
+                    ReadKey()
+            END SWITCH
+        END WHILE
+    END METHOD
+
+    METHOD DisplayIntroMessage(name)
+        ClearConsole()
+        PrintLine("==========================================")
+        PrintLine("          THE GATES OF BLACKWOOD          ")
+        PrintLine("==========================================")
+        PrintLine()
+        PrintLine("The heavy iron portcullis slams shut behind you, echoing through")
+        PrintLine("the damp, torch-lit stone corridors. The air smells of old dust")
+        PrintLine("and forgotten blood.")
+        PrintLine()
+        PrintLine($"You clutch your weapon, {name}, knowing there is only")
+        PrintLine("one way out: deeper into the dark.")
+        PrintLine()
+        PrintLine("Press any key to take your first step...")
+        ReadKey()
+    END METHOD
+
+    METHOD DisplayGameOverScreen()
+        ClearConsole()
+        PrintLine("================================================")
+        PrintLine("                  YOU HAVE DIED                 ")
+        PrintLine("================================================")
+        PrintLine($"Your journey ends here in the dark, {_player.Name}.")
+        PrintLine("Press any key to exit...")
+        ReadKey()
+    END METHOD
+
+    METHOD DisplayVictoryScreen()
+        ClearConsole()
+        PrintLine("================================================")
+        PrintLine("              VICTORY: DUNGEON CLEARED          ")
+        PrintLine("================================================")
+        PrintLine($"You emerge from the depths into the sunlight, {_player.Name}!")
+        PrintLine("Press any key to exit...")
+        ReadKey()
+    END METHOD
+END CLASS
+
+
+// ==========================================
+// 4. COMBAT ENCOUNTER SYSTEM (Encounters.cs)
+// ==========================================
+
+CLASS Encounters
+    PRIVATE FIELD _player: Player
+    PRIVATE FIELD _random: RandomGenerator
+
+    CONSTRUCTOR(player)
+        _player = player
+        _random = NEW RandomGenerator()
+    END CONSTRUCTOR
+
+    // Returns TRUE if enemy is defeated, FALSE if player fled or died
+    METHOD Combat(random, name, power, health)
+        enemyName = name
+        enemyPower = power
+        enemyHealth = health
+
+        WHILE enemyHealth > 0 AND _player.Health > 0
+            ClearConsole()
+            PrintLine($"=== COMBAT: {enemyName} ===")
+            PrintLine($"Enemy HP: {enemyHealth} | Enemy Power: {enemyPower}")
+            PrintLine($"Your HP: {_player.Health}/{_player.MaxHealth} | Potions: {_player.Potions}")
+            PrintLine("----------------------------------------")
+            PrintLine("[A] Attack")
+            PrintLine("[H] Drink Potion")
+            PrintLine("[R] Run Away")
+            Print("Choose action: ")
+
+            input = ToUpperCase(ReadLine())
+
+            SWITCH input
+                CASE "A":
+                    damageDealt = _player.WeaponPower + _random.Next(1, 4)
+                    enemyHealth -= damageDealt
+                    PrintLine($"You strike the {enemyName} for {damageDealt} damage!")
+
+                CASE "H":
+                    IF _player.Potions > 0 THEN
+                        _player.Potions -= 1
+                        healAmount = 30
+                        _player.Health = Min(_player.MaxHealth, _player.Health + healAmount)
+                        PrintLine($"You gulp down a health potion and restore {healAmount} HP.")
+                    ELSE
+                        PrintLine("You reach into your pouch, but it's empty! You wasted your turn searching.")
+                    END IF
+
+                CASE "R":
+                    PrintLine()
+                    PrintLine("You turn on your heel and sprint away in a panic, escaping back up the corridor!")
+                    ReadKey()
+                    RETURN false // Retreat successful, combat ends with failure code
+
+                DEFAULT:
+                    PrintLine("Invalid action. Hesitating costs you your turn!")
+            END SWITCH
+
+            // Check if enemy survived player's turn to retaliate
+            IF enemyHealth > 0 THEN
+                enemyDamage = enemyPower + _random.Next(0, 3)
+                _player.Health -= enemyDamage
+                PrintLine($"The {enemyName} lashes out and hits you for {enemyDamage} damage!")
+            END IF
+
+            PrintLine()
+            PrintLine("Press any key to continue turn...")
+            ReadKey()
+        END WHILE
+
+        // Evaluate final outcome
+        IF enemyHealth <= 0 THEN
+            PrintLine()
+            PrintLine($"With a final gasp, the {enemyName} collapses to the stone floor!")
+            RETURN true // Combat won
+        END IF
+
+        RETURN false // Player died
+    END METHOD
+END CLASS

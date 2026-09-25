@@ -60,7 +60,7 @@ namespace ConsoleDungeon.Game
             Introduction.FirstEncounter();
         }
 
-        private bool PlayRoom(RoomData room)
+        private bool PlayRoom(Room room)
         {
             List<Enemy> roomEnemies = _dungeonLoader.GetEnemiesForRoom(room.RoomNumber);
 
