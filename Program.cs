@@ -14,6 +14,7 @@ var host = Host.CreateDefaultBuilder(args)
                 services.AddSingleton<DungeonLoader>();
                 services.AddTransient<GameEngine>();
                 services.AddTransient<Encounters>();
+                services.AddTransient<SaveService>();
             })
             .Build();
 

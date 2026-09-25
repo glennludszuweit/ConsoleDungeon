@@ -8,17 +8,19 @@ namespace ConsoleDungeon.Game
         private readonly Player _player;
         private readonly Encounters _encounters;
         private readonly DungeonLoader _dungeonLoader;
+        private readonly SaveService _saveService;
 
-        public GameEngine(Player player, Encounters encounters, DungeonLoader dungeonLoader)
+        public GameEngine(Player player, Encounters encounters, DungeonLoader dungeonLoader, SaveService saveService)
         {
             _player = player;
             _encounters = encounters;
             _dungeonLoader = dungeonLoader;
+            _saveService = saveService;
         }
 
         public void Run()
         {
-            SetupPlayer();
+            LoadOrNewGame();
             RunIntroSequence();
 
             // Loop through all 5 rooms defined in rooms.json
@@ -43,6 +45,28 @@ namespace ConsoleDungeon.Game
             }
 
             DisplayGameVictory();
+        }
+
+        private void LoadOrNewGame()
+        {
+            if (File.Exists("Data/save-game.json"))
+            {
+                Console.Write("Saved game detected! Would you like to load your previous adventure (y/N)? ");
+                var loadGame = Console.ReadLine() ?? "N";
+
+                if (loadGame.Equals("Y", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    _saveService.LoadGame();
+                }
+                else
+                {
+                    SetupPlayer();
+                }
+            }
+            else
+            {
+                SetupPlayer();
+            }
         }
 
         private void SetupPlayer()
@@ -132,6 +156,7 @@ namespace ConsoleDungeon.Game
                 Console.WriteLine(" (3) Sharpen Weapon     (Cost: 25 Coins -> +2 Damage)");
                 Console.WriteLine(" (4) Reinforce Armor    (Cost: 20 Coins -> +5 Armor)");
                 Console.WriteLine(" (5) Return to Dungeon Fight");
+                Console.WriteLine(" (6) Save Game");
                 Console.WriteLine("==========================================");
                 Console.Write("> ");
 
@@ -198,6 +223,12 @@ namespace ConsoleDungeon.Game
                     Console.WriteLine("\nYou grip your weapon tightly and head back toward the danger...");
                     Console.ReadKey();
                     break; // Exit the safe hallway loop and go back to combat
+                }
+                else if (input == "6")
+                {
+                    _saveService.SaveGame(_player);
+                    Console.WriteLine("\nProgress successfuly saved!");
+                    Console.ReadKey();
                 }
                 else
                 {
