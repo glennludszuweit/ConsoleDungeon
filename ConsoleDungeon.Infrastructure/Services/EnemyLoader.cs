@@ -1,7 +1,7 @@
 using System.Text.Json;
-using ConsoleDungeon.Models;
+using ConsoleDungeon.Domain.Models;
 
-namespace ConsoleDungeon.Services
+namespace ConsoleDungeon.Infrastructure.Services
 {
     public class EnemyLoader
     {

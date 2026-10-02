@@ -1,16 +1,16 @@
-using ConsoleDungeon.Models;
-using ConsoleDungeon.Services;
+using ConsoleDungeon.Application.Interfaces;
+using ConsoleDungeon.Domain.Models;
 
-namespace ConsoleDungeon.Game
+namespace ConsoleDungeon.Application.Game
 {
     public class GameEngine
     {
         private readonly Player _player;
         private readonly Encounters _encounters;
-        private readonly DungeonLoader _dungeonLoader;
-        private readonly SaveService _saveService;
+        private readonly IDungeonLoader _dungeonLoader;
+        private readonly ISaveService _saveService;
 
-        public GameEngine(Player player, Encounters encounters, DungeonLoader dungeonLoader, SaveService saveService)
+        public GameEngine(Player player, Encounters encounters, IDungeonLoader dungeonLoader, ISaveService saveService)
         {
             _player = player;
             _encounters = encounters;

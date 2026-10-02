@@ -1,4 +1,4 @@
-namespace ConsoleDungeon.Game
+namespace ConsoleDungeon.Application.Game
 {
     public static class Introduction
     {

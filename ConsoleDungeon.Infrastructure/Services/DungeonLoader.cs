@@ -1,9 +1,10 @@
 using System.Text.Json;
-using ConsoleDungeon.Models;
+using ConsoleDungeon.Application.Interfaces;
+using ConsoleDungeon.Domain.Models;
 
-namespace ConsoleDungeon.Services
+namespace ConsoleDungeon.Infrastructure.Services
 {
-    public class DungeonLoader
+    public class DungeonLoader : IDungeonLoader
     {
         private List<Enemy> _allEnemies = [];
         private List<Room> _allRooms = [];
@@ -13,7 +14,7 @@ namespace ConsoleDungeon.Services
             LoadData();
         }
 
-        private void LoadData()
+        public void LoadData()
         {
             var options = new JsonSerializerOptions
             {

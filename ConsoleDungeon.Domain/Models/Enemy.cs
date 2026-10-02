@@ -1,4 +1,4 @@
-namespace ConsoleDungeon.Models
+namespace ConsoleDungeon.Domain.Models
 {
     public class Enemy
     {

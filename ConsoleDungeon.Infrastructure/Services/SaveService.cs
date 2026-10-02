@@ -1,9 +1,10 @@
 using System.Text.Json;
-using ConsoleDungeon.Models;
+using ConsoleDungeon.Application.Interfaces;
+using ConsoleDungeon.Domain.Models;
 
-namespace ConsoleDungeon.Services
+namespace ConsoleDungeon.Infrastructure.Services
 {
-    public class SaveService
+    public class SaveService : ISaveService
     {
         private readonly Player _player;
 

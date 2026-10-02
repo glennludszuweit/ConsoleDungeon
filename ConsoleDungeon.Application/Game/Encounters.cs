@@ -1,6 +1,6 @@
-using ConsoleDungeon.Models;
+using ConsoleDungeon.Domain.Models;
 
-namespace ConsoleDungeon.Game
+namespace ConsoleDungeon.Application.Game
 {
     public class Encounters
     {
