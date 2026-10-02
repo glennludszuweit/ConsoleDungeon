@@ -14,7 +14,7 @@ namespace ConsoleDungeon.Infrastructure.Services
             LoadData();
         }
 
-        public void LoadData()
+        public async void LoadData()
         {
             var options = new JsonSerializerOptions
             {

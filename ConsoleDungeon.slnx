@@ -1,6 +1,5 @@
 <Solution>
   <Project Path="ConsoleDungeon.Application/ConsoleDungeon.Application.csproj" />
-  <Project Path="ConsoleDungeon.Blazor/ConsoleDungeon.Blazor.csproj" />
   <Project Path="ConsoleDungeon.Domain/ConsoleDungeon.Domain.csproj" />
   <Project Path="ConsoleDungeon.Infrastructure/ConsoleDungeon.Infrastructure.csproj" />
   <Project Path="ConsoleDungeon.Presentation/ConsoleDungeon.Presentation.csproj" />
