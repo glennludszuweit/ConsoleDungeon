@@ -5,7 +5,6 @@
 [Ll]ogs/
 [Tt]emp/
 [Tt]mp/
-[Pp]ublish/
 [Pp]ublished/
 *.lock.json
 project.lock.json
